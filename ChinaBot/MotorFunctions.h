@@ -1,13 +1,13 @@
 #ifndef MOTOR_FUNCTIONS
 #define MOTOR_FUNCTIONS
 
-int pwm_a = 3;   //PWM control for motor outputs 1 and 2 is on digital pin 3
-int pwm_b = 11;  //PWM control for motor outputs 3 and 4 is on digital pin 11
-int dir_a = 12;  //direction control for motor outputs 1 and 2 is on digital pin 12
-int dir_b = 13; //direction control for motor outputs 3 and 4 is on digital pin 13
+static int pwm_a = 3;   //PWM control for motor outputs 1 and 2 is on digital pin 3
+static int pwm_b = 11;  //PWM control for motor outputs 3 and 4 is on digital pin 11
+static int dir_a = 12;  //direction control for motor outputs 1 and 2 is on digital pin 12
+static int dir_b = 13; //direction control for motor outputs 3 and 4 is on digital pin 13
 #define SPEED 200
 
-void setup_motors()
+static void setup_motors()
 {
   pinMode(pwm_a, OUTPUT);  //Set control pins to be outputs
   pinMode(pwm_b, OUTPUT);
@@ -15,7 +15,7 @@ void setup_motors()
   pinMode(dir_b, OUTPUT);
 }
 
-void forward() //full speed forward
+static void forward() //full speed forward
 { 
   digitalWrite(dir_a, HIGH);  //Reverse motor direction, 1 high, 2 low
   digitalWrite(dir_b, LOW);  //Reverse motor direction, 3 low, 4 high  
@@ -23,7 +23,7 @@ void forward() //full speed forward
   analogWrite(pwm_b, SPEED);
 }
 
-void backward() //full speed backward
+static void backward() //full speed backward
 {
   digitalWrite(dir_a, LOW);  //Set motor direction, 1 low, 2 high
   digitalWrite(dir_b, HIGH);  //Set motor direction, 3 high, 4 low
@@ -31,7 +31,7 @@ void backward() //full speed backward
   analogWrite(pwm_b, SPEED);
 }
 
-void right() //full speed right
+static void right() //full speed right
 {
   digitalWrite(dir_a, HIGH);  //Set motor direction, 1 low, 2 high
   digitalWrite(dir_b, HIGH);  //Set motor direction, 3 high, 4 low
@@ -39,7 +39,7 @@ void right() //full speed right
   analogWrite(pwm_b, SPEED);
 }
 
-void left() //full speed right
+static void left() //full speed right
 {
   digitalWrite(dir_a, LOW);  //Set motor direction, 1 low, 2 high
   digitalWrite(dir_b, LOW);  //Set motor direction, 3 high, 4 low
@@ -49,7 +49,7 @@ void left() //full speed right
 
 
 
-void stopped() //stop
+static void stopped() //stop
 { 
   digitalWrite(dir_a, LOW); //Set motor direction, 1 low, 2 high
   digitalWrite(dir_b, LOW); //Set motor direction, 3 high, 4 low
