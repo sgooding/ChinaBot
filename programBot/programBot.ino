@@ -1,12 +1,10 @@
 
 #include "Program.h"
 #include "MotorFunctions.h"
+#include "Beeper.h"
 #include <SoftwareSerial.h>  
 
-
 SoftwareSerial bluetooth(50,51);
-
-
 Program program;
 
 enum ProgramState
@@ -18,11 +16,6 @@ enum ProgramState
 };
 
 ProgramState state;
-
-void clear()
-{
-  program.reset();
-}
 
 void play()
 {
@@ -64,6 +57,7 @@ void load(char command)
 {
   Serial.print("Loading ... ");
   Serial.println(command);
+  Beeper::beep(100);
   program.add_command(command);
 }
 
@@ -94,7 +88,8 @@ void loop() {
     case 's': 
       state = COMPLETE;
       break;
-    case 'g': 
+    case 'g':
+      Beeper::confirm(); 
       state = PLAY;
       break;
   }
@@ -102,25 +97,29 @@ void loop() {
   switch(state)
   {
     case LOAD:
-      if(valid_command){
-      load(command);
+      if(valid_command)
+      {
+        load(command);
       }
       break;
     case CLEAR:
+    {
       Serial.println("CLEAR");
-      clear();
+      program.reset();
       state = LOAD;
       break;
+    }
     case PLAY:
-      //Serial.println("PLAY");
-
       play();
       break;
     case COMPLETE:
+    {
       Serial.println("COMPLETE");
       stopped();
       state = CLEAR;
+      Beeper::complete();
       break;
+    }
   }
 
   delay(100);
